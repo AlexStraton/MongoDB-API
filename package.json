@@ -4,7 +4,7 @@
   "description": "## Instructions:",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "cross-env NODE_ENV=test mocha test/**/*.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
@@ -16,7 +16,13 @@
     "mongoose": "^8.5.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.2",
+    "@babel/register": "^7.24.6",
     "chai": "^5.1.1",
+    "chai-http": "^5.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
     "mocha": "^10.7.0",
     "nodemon": "^3.1.4",
     "supertest": "^7.0.0"

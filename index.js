@@ -2,6 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Courses = require("./models/courses.model");
 const app = express();
+const dotenv = require("dotenv");
+
+const envFile = process.env.NODE_ENV === "test" ? ".env.test" : ".env.dev";
+dotenv.config({ path: envFile });
 
 app.use(express.json());
 

@@ -9,10 +9,6 @@ const chaiHttp = require("chai-http");
 
 chai.use(chaiHttp);
 
-// const Courses = require("../models/courses.model");
-// const { describe } = require("mocha");
-// const request = supertest(app);
-
 // describe("Courses API", () => {
 //   before((done) => {
 //     mongoose.connect(
@@ -26,40 +22,69 @@ chai.use(chaiHttp);
 // after((done) => {
 //   mongoose.connection.close(done);
 // });
-describe("get all courses", () => {
-  it("should test...", () => {
-    let expectedVal = 10;
-    let actualVal = 10;
-    expect(actualVal).to.be.equal(expectedVal);
-  });
 
-  it("should test...", (done) => {
+describe("GET all courses", () => {
+  it("should get all courses in a list", (done) => {
     chai
       .request(app)
       .get("/api/courses")
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a("array");
-        expect(res.body.length).to.equal(12);
-        //console.log(res.body);
+        done();
+      });
+  });
+  it("should throw an error if the route is incorrect", (done) => {
+    chai
+      .request(app)
+      .get("/api/notARoute")
+      .end((err, res) => {
+        res.should.have.status(404);
+        expect(res.body.message).to.equal("Not Found");
         done();
       });
   });
 });
 
-// it("should get all courses", async () => {
-//   const course1 = new Courses({
-//     id: 1,
-//     title: "Agile Innovation for Business Growth",
-//     topic: "change-and-culture",
-//     learningFormats: ["virtual", "residential", "blended", "self-study"],
-//     bestseller: false,
-//     startDate: "2023-05-05T00:00:00+0000",
-//   });
+describe("POST a course", () => {
+  it("should post a new course", (done) => {
+    chai
+      .request(app)
+      .post("/api/courses")
+      .send({
+        id: 14,
+        title: "Example",
+        topic: "business",
+        learningFormats: ["example", "another exam[ple"],
+        bestseller: false,
+        startDate: "2022-07-18T00:00:00+0000",
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        expect(res.body).to.include.keys("title");
+        expect(res.body).to.include.keys("topic");
+        expect(res.body).to.include.keys("learningFormats");
+        expect(res.body).to.include.keys("startDate");
+        done();
+      });
+  });
+  it("should handle missing credentials correctly when posting with missing credentials", (done) => {
+    chai
+      .request(app)
+      .post("/api/courses")
+      .send({
+        learningFormats: ["online"],
+        bestseller: false,
+        startDate: "2022-07-18T00:00:00+0000",
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).to.equal("Missing credentials");
+        done();
+      });
+  });
+});
 
-//   await course1.save();
-
-//   const res = await request.get("/api/courses");
-//   expect(res.status).to.equal(200);
-//   expect(res.body.length).to.equal(1);
-// });
+//test for delete
+//check id is correct
+//id is correct but doesn't exist

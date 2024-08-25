@@ -1,27 +1,10 @@
 process.env.NODE_ENV = "test";
-
-const mongoose = require("mongoose");
 const chai = require("chai");
 const expect = chai.expect;
-const should = chai.should();
 const app = require("../index");
 const chaiHttp = require("chai-http");
 
 chai.use(chaiHttp);
-
-// describe("Courses API", () => {
-//   before((done) => {
-//     mongoose.connect(
-//       "mongodb+srv://alexandrastraton1:StrAle2024@cluster0.vomctjz.mongodb.net/Cluster0?retryWrites=true&w=majority&appName=Cluster0",
-//       { useNewUrlParser: true, useUnifiedTopology: true }
-//     );
-//     mongoose.connection.once("open", () => done());
-//   });
-// });
-
-// after((done) => {
-//   mongoose.connection.close(done);
-// });
 
 describe("GET all courses", () => {
   it("should get all courses in a list", (done) => {

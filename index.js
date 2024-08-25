@@ -59,7 +59,6 @@ app.delete("/api/courses/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-//middleware 404 checking
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not Found" });
